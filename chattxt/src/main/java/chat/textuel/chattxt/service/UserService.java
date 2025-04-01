@@ -27,4 +27,9 @@ public class UserService {
     public void deleteById(Integer id) {
         userRepository.deleteById(id);
     }
+
+    public Optional<User> authenticate(String email, String password) {
+        return userRepository.findByEmail(email)
+                .filter(user -> user.getPassword().equals(password));
+    }
 }
