@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from '../service/login.service';
+import { LoginService } from '../../service/login.service';
+import { LoginRequest } from '../../interface/loginRequest.interface';
 
 @Component({
   selector: 'app-login',
@@ -22,19 +23,16 @@ export class LoginComponent {
   ) {}
 
   onSubmit() {
-    this.loginService.login(this.email, this.password)
-      .subscribe({
-        next: (response) => {
-          if (response.email == this.email) {
-            this.router.navigate(['/chat']);
-          } else {
-            this.errorMessage = 'Identifiants incorrects';
-          }
-        },
-        error: (err) => {
-          this.errorMessage = '';
-          console.error(err);
-        }
-      });
+    var loginRequest: LoginRequest = {email: this.email, password: this.password}
+    this.loginService.login(loginRequest).subscribe({
+      next: (user) => {
+        console.log('Utilisateur connecté', user);
+        this.router.navigate(['/chat']);
+      },
+      error: (err) => {
+        console.error('Erreur de connexion', err);
+        this.errorMessage = 'Identifiants incorrects ou problème serveur';
+      }
+    });
   }
 }

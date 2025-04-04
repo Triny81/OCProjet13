@@ -38,7 +38,6 @@ public class MessageController {
                     message.setMessage(messageDetails.getMessage());
                     message.setAuthor(messageDetails.getAuthor());
                     message.setConversation(messageDetails.getConversation());
-                    message.setUpdatedAt(messageDetails.getUpdatedAt());
                     return ResponseEntity.ok(messageService.save(message));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());

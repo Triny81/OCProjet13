@@ -1,0 +1,38 @@
+<div class="chat-container">
+  <div class="sidebar">
+    <h2>Conversations</h2>
+    <ul>
+      <li 
+        *ngFor="let conv of conversations" 
+        (click)="selectConversation(conv)"
+        [class.active]="conv === selectedConversation">
+        {{ conv.client.name }} {{ conv.client.name }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="chat-area">
+    <div class="messages" *ngIf="selectedConversation; else noConversation">
+      <h3>Chat avec {{ selectedConversation.client.name }} {{ selectedConversation.client.firstName }}</h3>
+      <div class="message-list">
+        <div 
+          *ngFor="let msg of messages"
+          [class.sent]="msg.author.id === currentUser.id"
+          [class.received]="msg.author.id !== currentUser.id">
+          <p>{{ msg.message }}</p>
+          <span>{{ msg.createdAt | date:'short' }}</span>
+        </div>
+      </div>
+      <div class="message-input">
+        <input 
+          [(ngModel)]="newMessage"
+          (keyup.enter)="sendMessage()"
+          placeholder="Tapez votre message...">
+        <button (click)="sendMessage()">Envoyer</button>
+      </div>
+    </div>
+    <ng-template #noConversation>
+      <p>Aucune conversation.</p>
+    </ng-template>
+  </div>
+</div>

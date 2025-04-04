@@ -27,4 +27,8 @@ public class ConversationService {
     public void deleteById(Integer id) {
         conversationRepository.deleteById(id);
     }
+
+    public List<Conversation> getConversationsByUserId(Long userId) {
+        return conversationRepository.findByClientIdOrAdminId(userId, userId);
+    }
 }

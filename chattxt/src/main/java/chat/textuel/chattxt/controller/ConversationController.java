@@ -37,7 +37,6 @@ public class ConversationController {
                 .map(conversation -> {
                     conversation.setAdmin(conversationDetails.getAdmin());
                     conversation.setClient(conversationDetails.getClient());
-                    conversation.setUpdatedAt(conversationDetails.getUpdatedAt());
                     return ResponseEntity.ok(conversationService.save(conversation));
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -51,5 +50,11 @@ public class ConversationController {
                     return ResponseEntity.ok().<Void>build();
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Conversation>> getUserConversations(@PathVariable Long id) {
+        List<Conversation> conversations = conversationService.getConversationsByUserId(id);
+        return ResponseEntity.ok(conversations);
     }
 }

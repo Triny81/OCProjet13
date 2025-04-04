@@ -1,6 +1,5 @@
 package chat.textuel.chattxt.controller;
 
-import chat.textuel.chattxt.model.User;
 import chat.textuel.chattxt.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
