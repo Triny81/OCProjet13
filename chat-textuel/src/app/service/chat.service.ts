@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Message } from '../interface/message.interface';
 import { Conversation } from '../interface/conversation.interface';
+import { ConversationRequest } from '../interface/conversationRequest.interface';
+import { MessageRequest } from '../interface/messageRequest.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +14,19 @@ export class ChatService {
 
   constructor(private http: HttpClient) {}
 
-  getConversations(userId: number): Observable<Conversation[]> {
-    return this.http.get<Conversation[]>(`${this.apiUrl}/conversations?userId=${userId}`);
+  getConversationsByUser(userId: number): Observable<Conversation[]> {
+    return this.http.get<Conversation[]>(`${this.apiUrl}/conversations/user/${userId}`);
+  }
+
+  createConversation(conversationRequest: ConversationRequest): Observable<Conversation> {
+    return this.http.post<Conversation>(`${this.apiUrl}/conversations`, conversationRequest);
   }
 
   getMessages(conversationId: number): Observable<Message[]> {
-    return this.http.get<Message[]>(`${this.apiUrl}/conversations/${conversationId}/messages`);
+    return this.http.get<Message[]>(`${this.apiUrl}/messages/conversation/${conversationId}`);
   }
 
-  createConversation(idAuthor: number): Observable<Conversation> {
-    return this.http.post<Conversation>(`${this.apiUrl}/conversations`, idAuthor);
-  }
-
-  sendMessage(message: Message): Observable<Message> {
-    return this.http.post<Message>(`${this.apiUrl}/messages`, message);
+  sendMessage(messageRequest: MessageRequest): Observable<Message> {
+    return this.http.post<Message>(`${this.apiUrl}/messages`, messageRequest);
   }
 }

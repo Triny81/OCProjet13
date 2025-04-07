@@ -21,7 +21,7 @@ export class LoginService {
   }
 
   login(loginRequest: LoginRequest): Observable<any> {
-    return this.http.post(this.apiUrl, { loginRequest }).pipe(
+    return this.http.post(this.apiUrl, loginRequest ).pipe(
       tap(user => {
         this.currentUserSubject.next(user);
         localStorage.setItem('currentUser', JSON.stringify(user));

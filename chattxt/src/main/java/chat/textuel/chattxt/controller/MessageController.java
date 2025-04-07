@@ -1,7 +1,13 @@
 package chat.textuel.chattxt.controller;
 
+import chat.textuel.chattxt.dto.MessageRequest;
+import chat.textuel.chattxt.model.Conversation;
 import chat.textuel.chattxt.model.Message;
+import chat.textuel.chattxt.model.User;
+import chat.textuel.chattxt.service.ConversationService;
 import chat.textuel.chattxt.service.MessageService;
+import chat.textuel.chattxt.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +19,12 @@ import java.util.List;
 public class MessageController {
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ConversationService conversationService;
 
     @GetMapping
     public List<Message> getAllMessages() {
@@ -27,8 +39,20 @@ public class MessageController {
     }
 
     @PostMapping
-    public Message createMessage(@RequestBody Message message) {
-        return messageService.save(message);
+    public ResponseEntity<Message> createMessage(@RequestBody MessageRequest request) {
+        User author = userService.findById(request.getAuthorId())
+                .orElseThrow(() -> new RuntimeException("Auteur non trouvé"));
+
+        Conversation conversation = conversationService.findById(request.getConversationId())
+                .orElseThrow(() -> new RuntimeException("Conversation non trouvée"));
+
+        Message message = new Message();
+        message.setMessage(request.getMessage());
+        message.setAuthor(author);
+        message.setConversation(conversation);
+
+        Message savedMessage = messageService.save(message);
+        return ResponseEntity.ok(savedMessage);
     }
 
     @PutMapping("/{id}")
@@ -51,5 +75,11 @@ public class MessageController {
                     return ResponseEntity.ok().<Void>build();
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/conversation/{id}")
+    public ResponseEntity<List<Message>> getConversationMessages(@PathVariable Long id) {
+        List<Message> messages = messageService.getConversationsByUserId(id);
+        return ResponseEntity.ok(messages);
     }
 }

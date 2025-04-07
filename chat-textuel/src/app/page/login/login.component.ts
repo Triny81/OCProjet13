@@ -20,10 +20,11 @@ export class LoginComponent {
   constructor(
     private loginService: LoginService,
     private router: Router
-  ) {}
+  ) { }
 
   onSubmit() {
-    var loginRequest: LoginRequest = {email: this.email, password: this.password}
+    const loginRequest: LoginRequest = { email: this.email, password: this.password };
+
     this.loginService.login(loginRequest).subscribe({
       next: (user) => {
         console.log('Utilisateur connecté', user);

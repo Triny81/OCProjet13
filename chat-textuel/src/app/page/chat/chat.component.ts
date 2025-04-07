@@ -6,6 +6,8 @@ import { LoginService } from '../../service/login.service';
 import { Message } from '../../interface/message.interface';
 import { Conversation } from '../../interface/conversation.interface';
 import { User } from '../../interface/user.interface';
+import { ConversationRequest } from '../../interface/conversationRequest.interface';
+import { MessageRequest } from '../../interface/messageRequest.interface';
 
 @Component({
   selector: 'app-chat',
@@ -35,20 +37,20 @@ export class ChatComponent implements OnInit {
   }
 
   loadConversations() {
-    this.chatService.getConversations(this.currentUser.id).subscribe({
+    this.chatService.getConversationsByUser(this.currentUser.id).subscribe({
       next: (data: Conversation[]) => {
         this.conversations = data;
 
-        if (this.conversations.length === 0 && this.currentUser.role.id === 1) { 
+        if (this.conversations.length === 0 && this.currentUser.role.id === 1) { // créer une conversation avec l'admin 
+          this.createConversation();
+        }
 
-        } 
-        
       },
       error: (err) => console.error('Erreur chargement conversations', err)
     });
   }
 
-  selectConversation(conversation: any) {
+  selectConversation(conversation: Conversation) {
     this.selectedConversation = conversation;
     this.loadMessages(conversation.id);
   }
@@ -56,7 +58,6 @@ export class ChatComponent implements OnInit {
   loadMessages(conversationId: number) {
     this.chatService.getMessages(conversationId).subscribe({
       next: (data) => {
-
         this.messages = data;
       },
       error: (err) => console.error('Erreur chargement messages', err)
@@ -65,12 +66,13 @@ export class ChatComponent implements OnInit {
 
   sendMessage() {
     if (this.newMessage.trim() && this.selectedConversation) {
-      const message: Message = {
+      const messageRequest: MessageRequest = {
         message: this.newMessage,
-        author: this.currentUser,
-        conversation: this.selectedConversation
+        authorId: this.currentUser.id,
+        conversationId: this.selectedConversation.id
       };
-      this.chatService.sendMessage(message).subscribe({
+
+      this.chatService.sendMessage(messageRequest).subscribe({
         next: (response) => {
           this.messages.push(response);
           this.newMessage = '';
@@ -81,11 +83,13 @@ export class ChatComponent implements OnInit {
   }
 
   createConversation() {
-    this.chatService.createConversation(this.currentUser.id).subscribe({
-      next: (response) => {
-    
+    const conversationRequest: ConversationRequest = { adminId: 1, clientId: this.currentUser.id }; // Pour le POC on considère qu'il n'y a qu'un admin
+
+    this.chatService.createConversation(conversationRequest).subscribe({
+      next: (conversation: Conversation) => {
+        this.conversations.push(conversation);
       },
-      error: (err) => console.error('Erreur creation conversation', err)
+      error: (err) => { console.error('Erreur creation conversation', err) },
     });
   }
 }
