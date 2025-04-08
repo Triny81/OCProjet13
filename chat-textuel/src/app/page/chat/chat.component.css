@@ -1,84 +1,107 @@
 .chat-container {
-    display: flex;
-    height: 100vh;
-  }
-  
-  .sidebar {
-    width: 250px;
-    background-color: #f4f4f4;
-    padding: 20px;
-    overflow-y: auto;
-  }
-  
-  .sidebar h2 {
-    margin-top: 0;
-  }
-  
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .sidebar li {
-    padding: 10px;
-    cursor: pointer;
-  }
-  
-  .sidebar li:hover, .sidebar li.active {
-    background-color: #ddd;
-  }
-  
-  .chat-area {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-  }
-  
-  .messages {
-    flex: 1;
-    overflow-y: auto;
-  }
-  
-  .message-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .sent, .received {
-    max-width: 60%;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .sent {
-    background-color: #007bff;
-    color: white;
-    align-self: flex-end;
-  }
-  
-  .received {
-    background-color: #e9ecef;
-    align-self: flex-start;
-  }
-  
-  .message-input {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
-  .message-input input {
-    flex: 1;
-    padding: 8px;
-  }
-  
-  .message-input button {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 30%;
+  background-color: #f4f4f4;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.sidebar li.active {
+  background-color: #ddd;
+}
+
+.sidebar li:hover {
+  background-color: #e0e0e0;
+}
+
+.unread-badge {
+  background-color: #ff4444;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+  margin-left: 5px;
+}
+
+.chat-area {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message-list {
+  flex: 1;
+  max-height: 70vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sent {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 60%;
+}
+
+.received {
+  align-self: flex-start;
+  background-color: #e9ecef;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 60%;
+}
+
+.message-input {
+  display: flex;
+  padding: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.message-input input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px 0 0 5px;
+}
+
+.message-input button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.message-input button:hover {
+  background-color: #0056b3;
+}

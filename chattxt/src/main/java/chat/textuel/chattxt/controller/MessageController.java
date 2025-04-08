@@ -39,15 +39,15 @@ public class MessageController {
     }
 
     @PostMapping
-    public ResponseEntity<Message> createMessage(@RequestBody MessageRequest request) {
-        User author = userService.findById(request.getAuthorId())
+    public ResponseEntity<Message> createMessage(@RequestBody MessageRequest messageRequest) {
+        User author = userService.findById(messageRequest.getAuthorId())
                 .orElseThrow(() -> new RuntimeException("Auteur non trouvé"));
 
-        Conversation conversation = conversationService.findById(request.getConversationId())
+        Conversation conversation = conversationService.findById(messageRequest.getConversationId())
                 .orElseThrow(() -> new RuntimeException("Conversation non trouvée"));
 
         Message message = new Message();
-        message.setMessage(request.getMessage());
+        message.setMessage(messageRequest.getMessage());
         message.setAuthor(author);
         message.setConversation(conversation);
 

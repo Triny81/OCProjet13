@@ -6,8 +6,8 @@
         *ngFor="let conv of conversations" 
         (click)="selectConversation(conv)"
         [class.active]="conv === selectedConversation">
-        {{ conv.admin.id === currentUser.id ? conv.client.firstName : conv.admin.firstName}} 
-        {{ conv.admin.id === currentUser.id ? conv.client.name : conv.admin.name}} 
+        {{ conv.admin.id === currentUser.id ? conv.client.firstName : conv.admin.firstName }} 
+        {{ conv.admin.id === currentUser.id ? conv.client.name : conv.admin.name }}
       </li>
     </ul>
   </div>
@@ -16,7 +16,7 @@
     <div class="messages" *ngIf="selectedConversation; else noConversation">
       <h3>Chat avec {{selectedConversation.admin.id === currentUser.id ? selectedConversation.client.firstName : selectedConversation.admin.firstName}} 
         {{selectedConversation.admin.id === currentUser.id ? selectedConversation.client.name : selectedConversation.admin.name}}</h3>
-      <div class="message-list">
+      <div class="message-list" #messageList>
         <div 
           *ngFor="let msg of messages"
           [class.sent]="msg.author.id === currentUser.id"
@@ -34,7 +34,7 @@
       </div>
     </div>
     <ng-template #noConversation>
-      <p>Aucune conversation.</p>
+      <p>Aucune conversation sélectionnée.</p>
     </ng-template>
   </div>
 </div>

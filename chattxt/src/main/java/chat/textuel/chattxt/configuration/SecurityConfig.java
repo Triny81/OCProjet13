@@ -17,6 +17,7 @@ public class SecurityConfig {
                 corsConfig.addAllowedOrigin("http://localhost:4200");
                 corsConfig.addAllowedMethod("*");
                 corsConfig.addAllowedHeader("*");
+                corsConfig.setAllowCredentials(true);
                 return corsConfig;
             }))
             .authorizeHttpRequests(auth -> auth
