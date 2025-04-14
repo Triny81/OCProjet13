@@ -42,6 +42,6 @@ ALTER TABLE `MESSAGE` ADD FOREIGN KEY (`conversation_id`) REFERENCES `CONVERSATI
 INSERT INTO `ROLE` (`id`,`name`) VALUES (1, 'Admin'), (2, 'Client');
 
 INSERT INTO `user` (`id`,`name`,`first_name`,`email`,`password`, `role_id`, `created_at`, `updated_at`) 
-VALUES (1, 'admin', 'admin', 'admin@admin.com', 'admin', 1, '2025-01-31 15:14:55.288000', '2025-01-31 15:14:55.288000'),
-(2, 'Jean', 'Dupont', 'jean@test.com', 'jean', 2, '2025-01-31 15:14:55.288000', '2025-01-31 15:14:55.288000'),
-(3, 'Michel', 'Durand', 'michel@test.com', 'michel', 2, '2025-01-31 15:14:55.288000', '2025-01-31 15:14:55.288000');
+VALUES (1, 'admin', 'admin', 'admin@admin.com', '$2a$10$bYiE7eIy4nMC3/k5J1kFPeZnEib5bZ0MjnWp1wC8FJVHq8LSaKlG.', 1, '2025-01-31 15:14:55.288000', '2025-01-31 15:14:55.288000'),
+(2, 'Jean', 'Dupont', 'jean@test.com', '$2a$10$90xb6ldw6xxXRPKUsoahNe2/knQ4xxihleMTTwHWKzKDnHGxJX7wC', 2, '2025-01-31 15:14:55.288000', '2025-01-31 15:14:55.288000'),
+(3, 'Michel', 'Durand', 'michel@test.com', '$2a$10$gGz.t5lbIyyjyCDFqmDv0uSRItXf3is1DoxrmJzzA/HxNs8k3lj3e', 2, '2025-01-31 15:14:55.288000', '2025-01-31 15:14:55.288000');
