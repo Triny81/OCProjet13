@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { LoginRequest } from '../interface/loginRequest.interface';
 import { User } from '../interface/user.interface';
 
@@ -9,7 +8,7 @@ import { User } from '../interface/user.interface';
   providedIn: 'root'
 })
 export class LoginService {
-  private apiUrl = 'http://localhost:3001/api/auth/login';
+  private apiUrl = 'http://localhost:3001/api/auth';
   private currentUserSubject = new BehaviorSubject<any>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
@@ -21,7 +20,7 @@ export class LoginService {
   }
 
   login(loginRequest: LoginRequest): Observable<any> {
-    return this.http.post(this.apiUrl, loginRequest ).pipe(
+    return this.http.post(this.apiUrl + "/login", loginRequest).pipe(
       tap(user => {
         this.currentUserSubject.next(user);
         localStorage.setItem('currentUser', JSON.stringify(user));
@@ -36,5 +35,12 @@ export class LoginService {
   logout() {
     this.currentUserSubject.next(null);
     localStorage.removeItem('currentUser');
+  }
+
+  public isUserAuthenticated(): Observable<boolean> {
+    return this.http.get(this.apiUrl + "/me").pipe(
+      map(response => !!response),
+      catchError(() => of(false))
+    );
   }
 }

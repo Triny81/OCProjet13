@@ -27,7 +27,6 @@ export class LoginComponent {
 
     this.loginService.login(loginRequest).subscribe({
       next: (user) => {
-        console.log('Utilisateur connecté', user);
         this.router.navigate(['/chat']);
       },
       error: (err) => {

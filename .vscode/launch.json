@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "BackApplication",
+            "request": "launch",
+            "mainClass": "chat.textuel.back.BackApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
+            "name": "ChattxtApplication",
+            "request": "launch",
+            "mainClass": "chat.textuel.chattxt.ChattxtApplication",
+            "projectName": ""
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-ChattxtApplication<chattxt>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

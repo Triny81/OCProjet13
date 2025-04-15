@@ -1,5 +1,6 @@
 package chat.textuel.chattxt.controller;
 
+import java.security.Principal;
 import java.time.Duration;
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +56,18 @@ public class AuthController {
         return ResponseEntity.ok().body("Logged out successfully");
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(final Principal principal) {
+        Optional<User> optUser = userService.findByEmail(principal.getName());
+
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     private ResponseEntity<?> authenticateUserAndSetCookie(String login, String password,
             HttpServletResponse response) {
         Optional<User> userOptional = userService.findByEmail(login);
@@ -70,8 +84,8 @@ public class AuthController {
 
             ResponseCookie jwtCookie = ResponseCookie.from("jwt", token)
                     .httpOnly(true)
-                    .secure(true)
-                    .sameSite("Strict")
+                    .secure(false)
+                    .sameSite("Lax")
                     .path("/")
                     .maxAge(Duration.ofHours(24))
                     .build();
